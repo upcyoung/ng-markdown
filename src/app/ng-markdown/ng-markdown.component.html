@@ -1,0 +1,30 @@
+<div class="md-area">
+  <div class="md-header">
+    <ul class="nav nav-tabs nav-links clearfix">
+      <li class="md-header-tab" [ngClass]="{active:editing}">
+        <button class="md-write-button" tabindex="-1" (click)="toEdit()">
+          Write
+        </button>
+      </li>
+      <li class="md-header-tab " [ngClass]="{active:!editing}">
+        <button class="md-preview-button" tabindex="-1" (click)="toPreview()">
+          Preview
+        </button>
+      </li>
+      <li class="md-header-toolbar" [ngClass]="{active:editing}">
+        <div class="md-header-toolbar active">
+          <button tabindex="-1" (click)="addTag('**')">粗体</button>
+          <button tabindex="-1" (click)="addTag('*')">斜体</button>
+        </div>
+
+      </li>
+    </ul>
+  </div>
+  <div [hidden]="!editing" class="md-write-holder">
+    <textarea #autosize class="markdown-area"
+      style="overflow: hidden; overflow-wrap: break-word; resize: none; height: 140px;"></textarea>
+    <div class="comment-toolbar clearfix">
+    </div>
+  </div>
+  <div [hidden]="editing" class="md-preview-holder" [innerHtml]="dom"></div>
+</div>
