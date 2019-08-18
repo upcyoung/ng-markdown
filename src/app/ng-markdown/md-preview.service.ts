@@ -24,8 +24,8 @@ export class MarkdownPreviewService {
     });
   }
 
-  private renderMermaid(view: EditorView) {
-    const els = view.dom.querySelectorAll('[data-params="mermaid"]');
+  private renderMermaid(view: HTMLElement) {
+    const els = view.querySelectorAll('[data-params="mermaid"]');
     els.forEach((el, i) => {
       const source = el.textContent;
 
@@ -67,18 +67,20 @@ export class MarkdownPreviewService {
 
   preview(content: string) {
     const target = document.createElement('div');
-    target.style.transform = 'tranlateX:-1000px';
-    document.body.append(target);
+    // target.style.display = 'none';
+    // document.body.append(target);
+    
 
     const view = new EditorView(target, {
       state: EditorState.create({
         doc: defaultMarkdownParser.parse(content),
       })
     });
-    this.renderMermaid(view);
-    return of(view.dom.outerHTML.replace('contenteditable="true"', '')).pipe(tap(() => {
+    target.innerHTML = view.dom.outerHTML;
+    this.renderMermaid(target);
+    return of(target.outerHTML.replace('contenteditable="true"', '')).pipe(tap(() => {
       view.destroy();
-      document.body.removeChild(target);
+      // document.body.removeChild(target);
     }));
-  }
+  } 
 }
